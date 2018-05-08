@@ -1,0 +1,65 @@
+
+<app-loading [condition]="isLoading"></app-loading>
+
+<app-toast [message]="toast.message"></app-toast>
+
+<div class="card mb-3" *ngIf="!isLoading">
+  <h4 class="card-header">Vendor Bank Details ({{vendorbanks.length}})</h4>
+  <div class="card-body">
+    <table class="table table-bordered">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Vendor ID</th>
+          <th scope="col">Vendor Bank Name</th>
+          <th scope="col">Vendor Bank Account Number</th>
+          <th scope="col">IFSC Code</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="vendorbanks.length === 0">
+        <tr>
+          <td colspan="5">There are no vendorbankdetails in the DB. Add a new vendorbankdetails below.</td>
+        </tr>  
+      </tbody>
+      <tbody *ngIf="!isEditing">
+        <tr *ngFor="let vendorbank of vendorbanks">
+          <td>{{vendorbank.vendorid}}</td>
+          <td>{{vendorbank.vendorbankname}}</td>
+          <td>{{vendorbank.vendorbankaccno}}</td>
+          <td>{{vendorbank.ifsccode}}</td>        
+          <td>
+            <button class="btn btn-sm btn-primary" (click)="enableEditing(vendorbank)"><i class="fa fa-pencil"></i> Edit</button> 
+            <button class="btn btn-sm btn-danger" (click)="deleteVendorBank(vendorbank)"><i class="fa fa-trash"></i> Delete</button>
+          </td>
+        </tr>  
+      </tbody>
+      <tbody *ngIf="isEditing">
+        <tr>
+          <td colspan="5">
+            <form class="form-inline" #form="ngForm" (ngSubmit)="editVendorBank(vendorbank)">
+              <input class="form-control mr-2" type="text" name="vendorid" [(ngModel)]="vendorbank.vendorid" placeholder="Vendor ID" required>
+              <input class="form-control mr-2" type="text" name="vendorbankname" [(ngModel)]="vendorbank.vendorbankname" placeholder="Vendor Bank Name" required>
+              <input class="form-control mr-2" type="text" name="vendorbankaccno" [(ngModel)]="vendorbank.vendorbankaccno" placeholder="Vendor Bank Account Number" required>
+              <input class="form-control mr-2" type="text" name="ifsccode" [(ngModel)]="vendorbank.ifsccode" placeholder="IFSC Code" required>
+              <button class="btn btn-sm btn-primary mr-2" type="submit" [disabled]="!form.form.valid"><i class="fa fa-floppy-o"></i> Save</button>
+              <button class="btn btn-sm btn-warning" (click)="cancelEditing()"><i class="fa fa-times"></i> Cancel</button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card" *ngIf="!isEditing">
+  <h4 class="card-header">Add new Vendor Bank Details</h4>
+  <div class="card-body">
+    <form class="form-horizontal" [formGroup]="addVendorBankFrom" (ngSubmit)="addVendorBank()">
+      <input class="form-control mr-2" type="text" name="vendorid" formControlName="vendorid" placeholder="Vendor ID">
+      <input class="form-control mr-2" type="text" name="vendorbankname" formControlName="vendorbankname" placeholder="Vendor Bank Name">
+      <input class="form-control mr-2" type="text" name="vendorbankaccno" formControlName="vendorbankaccno" placeholder="Vendor Bank Account Number">
+      <input class="form-control mr-2" type="text" name="ifsccode" formControlName="ifsccode" placeholder="IFSC Code">
+      <button class="btn btn-primary" type="submit" [disabled]="!addVendorBankFrom.valid"><i class="fa fa-floppy-o"></i> Add</button>
+    </form>
+  </div>
+</div>
