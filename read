@@ -1,0 +1,25 @@
+Add a server folder and move controller, models, test,app.ts,routes.ts, tsconfig.json the folders and files
+
+sturcture
+client
+dist
+e2e
+node_modules (npm install)
+server
+  controllers
+  models
+  test
+  app.ts
+  route.ts
+  tsconfig.json
+.angular-cli.json
+.editorconfig
+.env
+karma.conf
+packagejson
+package-lock.json
+Procfile
+protractor.conf
+proxy.conf.json
+tsconfig.json
+tslint.json
